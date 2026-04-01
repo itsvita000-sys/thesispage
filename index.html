@@ -1,358 +1,506 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Presentation Guide — Yin-Yu Wu Thesis Proposal</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: var(--font-sans); background: transparent; }
-.outline { padding: 12px 0; }
-.chapter { margin-bottom: 20px; border: 1px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); overflow: hidden; }
-.chapter-header { padding: 12px 16px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; user-select: none; }
-.ch1 { background: #1A2B4A; } .ch1 .ch-num, .ch1 .ch-title { color: #fff; } .ch1 .ch-arrow { color: #C8D4DF; }
-.ch2 { background: #0A7E8C; } .ch2 .ch-num, .ch2 .ch-title { color: #fff; } .ch2 .ch-arrow { color: #E1F5F7; }
-.ch3 { background: #E8A225; } .ch3 .ch-num, .ch3 .ch-title { color: #2C1800; } .ch3 .ch-arrow { color: #4A2C00; }
-.ch-left { display: flex; align-items: center; gap: 12px; }
-.ch-num { font-size: 11px; font-weight: 500; letter-spacing: 1px; opacity: 0.9; }
-.ch-title { font-size: 15px; font-weight: 500; }
-.ch-arrow { font-size: 18px; transition: transform 0.2s; }
-.chapter-body { background: var(--color-background-primary); display: none; }
-.chapter-body.open { display: block; }
-.section { border-top: 1px solid var(--color-border-tertiary); padding: 12px 16px; }
-.sec-title { font-size: 13px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 6px; }
-.sec-title .sec-num { color: var(--color-text-secondary); margin-right: 6px; }
-.points { list-style: none; display: flex; flex-direction: column; gap: 4px; }
-.points li { font-size: 12px; color: var(--color-text-secondary); line-height: 1.5; padding-left: 14px; position: relative; }
-.points li::before { content: "•"; position: absolute; left: 3px; color: var(--color-text-tertiary); }
-.points li strong { color: var(--color-text-primary); font-weight: 500; }
-.points li em { font-style: italic; color: var(--color-text-secondary); }
-.sub-section { margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--color-border-tertiary); }
-.sub-title { font-size: 12px; font-weight: 500; color: var(--color-text-secondary); margin-bottom: 4px; }
-.tag { display: inline-block; font-size: 10px; padding: 1px 6px; border-radius: 10px; margin-right: 4px; font-weight: 500; }
-.tag-key { background: #E1F5EE; color: #0F6E56; }
-.tag-gap { background: #FAECE7; color: #993C1D; }
-.tag-meth { background: #E6F1FB; color: #185FA5; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #F4F6F8; color: #1A2B4A; }
+
+.top-bar {
+  background: #1A2B4A;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.top-bar h1 { font-size: 14px; color: #C8D4DF; font-weight: 500; }
+
+.nav-row { display: flex; align-items: center; gap: 8px; }
+
+.btn {
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: 1px solid #C8D4DF44;
+  background: #ffffff18;
+  color: #fff;
+  font-size: 12px;
+  cursor: pointer;
+  font-family: inherit;
+}
+.btn:hover { background: #0A7E8C; border-color: #0A7E8C; }
+.btn-teal { background: #0A7E8C; border-color: #0A7E8C; }
+
+.counter { font-size: 13px; color: #C8D4DF; min-width: 80px; text-align: center; font-weight: 500; }
+
+.timer-section { display: flex; align-items: center; gap: 8px; }
+#timer { font-size: 24px; font-weight: 600; color: #fff; font-variant-numeric: tabular-nums; min-width: 60px; }
+#timer.warn { color: #E8A225; }
+#timer.over { color: #E05C5C; }
+
+.progress-track {
+  height: 3px;
+  background: #1A2B4A;
+  position: sticky;
+  top: 52px;
+  z-index: 99;
+}
+.progress-fill { height: 100%; background: #0A7E8C; transition: width .3s; }
+
+.thumb-bar {
+  background: #1A2B4A;
+  padding: 8px 20px;
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  position: sticky;
+  top: 55px;
+  z-index: 98;
+  border-top: 1px solid #ffffff15;
+}
+.thumb {
+  width: 28px;
+  height: 24px;
+  border-radius: 4px;
+  border: 1px solid #ffffff25;
+  background: #ffffff12;
+  color: #C8D4DF;
+  font-size: 11px;
+  cursor: pointer;
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.thumb:hover { background: #0A7E8C55; border-color: #0A7E8C; color: #fff; }
+.thumb.active { background: #0A7E8C; border-color: #0A7E8C; color: #fff; font-weight: 600; }
+
+.main { max-width: 820px; margin: 0 auto; padding: 20px 20px 60px; }
+
+.card {
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.card-header {
+  background: #1A2B4A;
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.badge { background: #0A7E8C; color: #fff; font-size: 10px; font-weight: 600; padding: 3px 9px; border-radius: 10px; }
+.card-title { color: #fff; font-size: 15px; font-weight: 600; flex: 1; }
+.time-label { color: #C8D4DF; font-size: 11px; }
+
+.card-body { padding: 18px 20px; }
+
+.opening {
+  font-size: 13.5px;
+  font-style: italic;
+  color: #0A7E8C;
+  border-left: 3px solid #0A7E8C;
+  padding: 8px 12px;
+  background: #D6EFF244;
+  border-radius: 0 6px 6px 0;
+  margin-bottom: 16px;
+  line-height: 1.6;
+}
+
+.points { list-style: none; display: flex; flex-direction: column; gap: 9px; margin-bottom: 14px; }
+.points li {
+  font-size: 13.5px;
+  line-height: 1.6;
+  padding-left: 18px;
+  position: relative;
+  color: #1A2B4A;
+}
+.points li::before { content: "▸"; position: absolute; left: 0; color: #0A7E8C; font-size: 11px; top: 4px; }
+.points li strong { font-weight: 600; }
+.points li .ref { font-size: 11.5px; color: #6B7F92; font-style: italic; }
+.points li .em { font-style: italic; color: #3A5A7A; }
+
+.warn-box {
+  background: #FDF3DC;
+  border-left: 3px solid #E8A225;
+  border-radius: 0 6px 6px 0;
+  padding: 9px 12px;
+  font-size: 12.5px;
+  color: #633806;
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+.warn-box::before { content: "⚠ Heads up: "; font-weight: 600; }
+
+.transition-box {
+  background: #F0F7F4;
+  border: 1px dashed #0A7E8C66;
+  border-radius: 6px;
+  padding: 7px 12px;
+  font-size: 12px;
+  color: #0A7E8C;
+}
+.transition-box::before { content: "→ Transition: "; font-weight: 600; }
+
+.section-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #6B7F92;
+  margin: 20px 0 8px;
+  padding-left: 2px;
+}
 </style>
+</head>
+<body>
 
-<div class="outline">
-
-<div class="chapter">
-  <div class="chapter-header ch1" onclick="toggle(this)">
-    <div class="ch-left">
-      <span class="ch-num">CH. 1</span>
-      <span class="ch-title">Introduction</span>
-    </div>
-    <span class="ch-arrow">▾</span>
+<div class="top-bar">
+  <h1>Thesis Proposal — Presentation Guide</h1>
+  <div class="nav-row">
+    <button class="btn" onclick="go(-1)">◀ Prev</button>
+    <span class="counter" id="counter">1 / 26</span>
+    <button class="btn btn-teal" onclick="go(1)">Next ▶</button>
   </div>
-  <div class="chapter-body open">
-    <div class="section">
-      <div class="sec-title"><span class="sec-num">1.1</span>Background of the Study</div>
-      <ul class="points">
-        <li>Post-COVID shift: rapid growth of <strong>remote interpreting</strong> & online conferencing</li>
-        <li>ASR technology integrated into Zoom, Google Meet, Webex → <strong>live captions during interpreting</strong></li>
-        <li>CAI tools include: terminology databases, note-taking tools, ASR systems</li>
-        <li>Two-sided effect: subtitles may <strong>help with numbers/names/accents</strong> BUT also add new input channels → cognitive overload risk (Seeber, 2017)</li>
-        <li>Interpreters' <strong>inconsistent perceptions</strong> of ASR: some find it helpful, some find it distracting (Wan, 2022; Wang et al., 2025)</li>
-      </ul>
-    </div>
-    <div class="section">
-      <div class="sec-title"><span class="sec-num">1.2</span>Multimodal Processing & Cognitive Load in Interpreting</div>
-      <ul class="points">
-        <li>Interpreters must simultaneously: <strong>listen → retain → produce</strong></li>
-        <li>Adding visual text creates third channel → attention allocation challenge</li>
-        <li>Eye-tracking studies show attention split between speaker and captions (Seeber, 2011)</li>
-        <li>ASR accuracy issues: unreliable text may cause extra cognitive effort to "verify" (Wang et al., 2025)</li>
-      </ul>
-    </div>
-    <div class="section">
-      <div class="sec-title"><span class="sec-num">1.3</span>Research Gap <span class="tag tag-gap">Gap</span></div>
-      <ul class="points">
-        <li>Most empirical studies focus on <strong>simultaneous</strong> interpreting — <em>consecutive interpreting underexplored</em></li>
-        <li>Different subtitle language types not systematically compared</li>
-        <li>Cognitive load + subtitle modality = rarely studied together</li>
-        <li>Training level differences in subtitle use = unexplored</li>
-      </ul>
-    </div>
-    <div class="section">
-      <div class="sec-title"><span class="sec-num">1.4</span>Research Purpose & Research Questions <span class="tag tag-key">Core</span></div>
-      <ul class="points">
-        <li><strong>RQ1:</strong> Effects of subtitle modalities on <em>interpreting performance</em> (accuracy, terminology, fluency, delivery)</li>
-        <li><strong>RQ2:</strong> Effects of subtitle modalities on <em>cognitive load</em></li>
-        <li><strong>RQ3:</strong> Do training levels (beginner vs. intermediate) moderate the above effects?</li>
-        <li>4 subtitle conditions as a linguistic progression: No subtitle → EN → Bilingual → ZH</li>
-      </ul>
-    </div>
-    <div class="section">
-      <div class="sec-title"><span class="sec-num">1.5</span>Significance of the Study</div>
-      <ul class="points">
-        <li>Extends multimodal processing literature into <strong>consecutive interpreting + ASR context</strong></li>
-        <li>Practical: informs technology-assisted interpreter training curriculum</li>
-      </ul>
-    </div>
+  <div class="timer-section">
+    <span id="timer">20:00</span>
+    <button class="btn" id="tbtn" onclick="toggleTimer()">▶ Start</button>
+    <button class="btn" onclick="resetTimer()">Reset</button>
   </div>
 </div>
 
-<div class="chapter">
-  <div class="chapter-header ch2" onclick="toggle(this)">
-    <div class="ch-left">
-      <span class="ch-num">CH. 2</span>
-      <span class="ch-title">Literature Review</span>
-    </div>
-    <span class="ch-arrow">▾</span>
-  </div>
-  <div class="chapter-body open">
-    <div class="section">
-      <div class="sec-title"><span class="sec-num">2.1</span>Interpreting as a Cognitive Process</div>
-      <ul class="points">
-        <li>Interpreting ≠ translation: <strong>real-time, no revision, transient input</strong> (Pöchhacker, 2004)</li>
-        <li>Multiple simultaneous processes: comprehension → memory → production → monitoring</li>
-        <li>Meaning-oriented, not form-oriented → requires pragmatic adjustment</li>
-      </ul>
-      <div class="sub-section">
-        <div class="sub-title">2.1.1 Characteristics of Interpreting</div>
-        <ul class="points">
-          <li>Real-time; transient spoken input (can't go back)</li>
-          <li>Simultaneous coordination of listening, memory, production</li>
-          <li>Constrained by human cognitive capacity</li>
-        </ul>
-      </div>
-      <div class="sub-section">
-        <div class="sub-title">2.1.2 Gile's Effort Model (1995, 2009) <span class="tag tag-key">Key Theory</span></div>
-        <ul class="points">
-          <li><strong>L (Listening & Analysis) + M (Memory) + P (Production) + C (Coordination)</strong></li>
-          <li>"Tightrope hypothesis": interpreters often operate near cognitive capacity limit</li>
-          <li>Overload → omissions, simplifications, errors</li>
-          <li>Adding subtitle channel increases demand on L and C efforts</li>
-        </ul>
-      </div>
-    </div>
-    <div class="section">
-      <div class="sec-title"><span class="sec-num">2.2</span>Cognitive Load in Interpreting</div>
-      <div class="sub-section">
-        <div class="sub-title">2.2.1 Cognitive Load Theory — Sweller (1988) <span class="tag tag-key">Key Theory</span></div>
-        <ul class="points">
-          <li>Working memory: <strong>limited capacity + duration</strong></li>
-          <li>3 types: <strong>Intrinsic load</strong> (task difficulty) / <strong>Extraneous load</strong> (presentation format) / <strong>Germane load</strong> (schema building)</li>
-          <li>Subtitles may add extraneous load if they compete with auditory processing</li>
-        </ul>
-      </div>
-      <div class="sub-section">
-        <div class="sub-title">2.2.2 Cognitive Load in Interpreting</div>
-        <ul class="points">
-          <li>Interpreting = one of highest cognitive load tasks in language activity</li>
-          <li>Tightrope hypothesis: small increases in difficulty → performance drops</li>
-        </ul>
-      </div>
-      <div class="sub-section">
-        <div class="sub-title">2.2.3 Factors Affecting Cognitive Load</div>
-        <ul class="points">
-          <li><strong>Speech rate</strong>: faster = more load (Gile, 2009; Yang, 2023)</li>
-          <li><strong>Information density</strong>: complex syntax/terminology = more load (Moser-Mercer, 2000)</li>
-          <li><strong>Multimodal input</strong>: visual text = additional attentional demand (Seeber, 2011, 2017)</li>
-        </ul>
-      </div>
-    </div>
-    <div class="section">
-      <div class="sec-title"><span class="sec-num">2.3</span>Multimodal Processing in Interpreting <span class="tag tag-key">Key Theory</span></div>
-      <div class="sub-section">
-        <div class="sub-title">2.3.1 Audiovisual Speech Perception</div>
-        <ul class="points">
-          <li>Sumby & Pollack (1954): visual lip movements improve comprehension in noise</li>
-          <li>McGurk effect (1976): audio + visual are <em>integrated</em>, not just additive</li>
-        </ul>
-      </div>
-      <div class="sub-section">
-        <div class="sub-title">2.3.2 Multimodal Input in Interpreting (Seeber, 2017)</div>
-        <ul class="points">
-          <li>Interpreting = multimodal cognitive activity (audio + visual + own output)</li>
-          <li>Attention must be allocated across channels simultaneously</li>
-          <li>Aligned inputs → may support comprehension; competing inputs → interference</li>
-        </ul>
-      </div>
-      <div class="sub-section">
-        <div class="sub-title">2.3.3 Audiovisual Discrepancies</div>
-        <ul class="points">
-          <li>Wang et al. (2024): audio-visual mismatches <strong>negatively affect performance</strong> in ASR-assisted SI</li>
-          <li>Yu (2024): discrepancies disrupt processing → increased difficulty & errors</li>
-          <li>ASR errors = frequent source of discrepancy</li>
-        </ul>
-      </div>
-    </div>
-    <div class="section">
-      <div class="sec-title"><span class="sec-num">2.4</span>Technology in Interpreting</div>
-      <div class="sub-section">
-        <div class="sub-title">2.4.1 Computer-Assisted Interpreting (CAI) Tools</div>
-        <ul class="points">
-          <li>Includes: terminology tools, glossaries, note-taking apps, ASR systems (Fantinuoli, 2018)</li>
-          <li>CAI reshapes how cognitive resources are managed during task</li>
-        </ul>
-      </div>
-      <div class="sub-section">
-        <div class="sub-title">2.4.2 ASR in Interpreting</div>
-        <ul class="points">
-          <li>ASR converts speech to text in real time; growing use in RSI (Pöchhacker & Liu, 2024)</li>
-          <li>Can help with terminology, names, numbers (Li, 2013; Tammasrisawat & Rangponsumrit, 2023)</li>
-          <li>Raises question: how do interpreters integrate text + audio channels?</li>
-        </ul>
-      </div>
-      <div class="sub-section">
-        <div class="sub-title">2.4.3 Effects of ASR-Generated Subtitles</div>
-        <ul class="points">
-          <li>Wang et al. (2025): trainees find ASR helpful for terminology & verification</li>
-          <li>But: when errors occur → must decide to trust ASR or auditory input = extra load</li>
-          <li>Both facilitative AND disruptive effects documented</li>
-        </ul>
-      </div>
-    </div>
-    <div class="section">
-      <div class="sec-title"><span class="sec-num">2.5</span>Subtitle Support & Interpreting Performance</div>
-      <div class="sub-section">
-        <div class="sub-title">2.5.1 Textual Support in Interpreting</div>
-        <ul class="points">
-          <li>Written text alongside speech → dual-channel access to information</li>
-          <li>Can confirm names, numbers, terminology (Díaz-Cintas & Remael, 2021)</li>
-        </ul>
-      </div>
-      <div class="sub-section">
-        <div class="sub-title">2.5.2 Multimodal Input & Attention Allocation</div>
-        <ul class="points">
-          <li>Seeber (2017): interpreters must manage competing streams of input</li>
-          <li>Visual text forces shift between <em>listening mode</em> and <em>reading mode</em></li>
-          <li>If streams are aligned: reinforces comprehension; if mismatched: interference</li>
-        </ul>
-      </div>
-      <div class="sub-section">
-        <div class="sub-title">2.5.3 Previous Empirical Studies</div>
-        <ul class="points">
-          <li>Wang et al. (2025): trainees perceive ASR as helpful; reliance varies with ASR quality</li>
-          <li>Tammasrisawat & Rangponsumrit (2023): ASR-CAI tools may improve SI accuracy</li>
-          <li>Yu (2024): discrepancies disrupt processing and increase cognitive burden</li>
-        </ul>
-      </div>
-    </div>
-    <div class="section">
-      <div class="sec-title"><span class="sec-num">2.6</span>Research Gap (Summary) <span class="tag tag-gap">Gap</span></div>
-      <ul class="points">
-        <li>Studies mainly on <strong>simultaneous</strong> interpreting; consecutive = understudied</li>
-        <li>No systematic comparison of <strong>subtitle language type</strong> (EN vs. Bilingual vs. ZH)</li>
-        <li>Subtitle modality + <strong>cognitive load</strong> not empirically tested together</li>
-        <li>Training level as moderating variable = unstudied</li>
-        <li>This study: first to address all 4 gaps in a single consecutive interpreting experiment</li>
-      </ul>
-    </div>
-  </div>
-</div>
+<div class="progress-track"><div class="progress-fill" id="pfill" style="width:3.8%"></div></div>
+<div class="thumb-bar" id="thumbs"></div>
 
-<div class="chapter">
-  <div class="chapter-header ch3" onclick="toggle(this)">
-    <div class="ch-left">
-      <span class="ch-num">CH. 3</span>
-      <span class="ch-title">Methodology</span>
-    </div>
-    <span class="ch-arrow">▾</span>
-  </div>
-  <div class="chapter-body open">
-    <div class="section">
-      <div class="sec-title"><span class="sec-num">3.1</span>Research Design <span class="tag tag-meth">Design</span></div>
-      <ul class="points">
-        <li><strong>Mixed-methods experimental design</strong>: within-subject repeated measures</li>
-        <li>Quantitative + qualitative triangulation</li>
-        <li>4 subtitle conditions, fixed order — rationale: progression from no support → source-lang → bilingual → target-lang</li>
-        <li>Two dependent variables: <strong>interpreting performance</strong> + <strong>cognitive load</strong></li>
-        <li>Between-subjects factor: <strong>training level</strong> (beginner vs. intermediate)</li>
-      </ul>
-    </div>
-    <div class="section">
-      <div class="sec-title"><span class="sec-num">3.2</span>Participants <span class="tag tag-meth">N=14</span></div>
-      <ul class="points">
-        <li><strong>14 student interpreters</strong>, graduate level, Northern Taiwan</li>
-        <li><strong>Beginner group (R1–R7)</strong>: no prior formal interpreting training; L1 Chinese, B-lang English</li>
-        <li><strong>Intermediate group (A1–A7)</strong>: ≥2 semesters of interpreting training (note-taking, reformulation, delivery)</li>
-        <li>All Chinese native speakers; all sufficient English for academic speech (B1-B2)</li>
-        <li>Voluntary participation; written consent obtained</li>
-      </ul>
-    </div>
-    <div class="section">
-      <div class="sec-title"><span class="sec-num">3.3</span>Experimental Materials <span class="tag tag-meth">Design</span></div>
-      <ul class="points">
-        <li>English speech on <strong>AI's influence on education</strong> (Singapore professor, ~10 min)</li>
-        <li>Divided into <strong>4 segments</strong> (~90–120 sec each) using CapCut</li>
-        <li>Difficulty: <strong>B1–B2 (CEFR)</strong>, verified by Text Inspector</li>
-        <li>ASR subtitles auto-generated by <strong>Verbal.ai</strong></li>
-        <li>Fixed subtitle order: (1) No subtitle → (2) EN → (3) EN+ZH bilingual → (4) ZH</li>
-        <li>Rationale for order: baseline → source-lang support → max support → target-lang support</li>
-      </ul>
-    </div>
-    <div class="section">
-      <div class="sec-title"><span class="sec-num">3.4</span>Experimental Procedure <span class="tag tag-meth">Flow</span></div>
-      <ul class="points">
-        <li>Individual sessions, controlled classroom, same equipment for all</li>
-        <li>Step 1: Briefing + informed consent</li>
-        <li>Step 2: Watch speech segment with subtitle condition</li>
-        <li>Step 3: Consecutive interpret into Chinese (iPhone audio recorded)</li>
-        <li>Step 4: Complete <strong>Paas Cognitive Load Scale</strong> (1–9)</li>
-        <li>Steps 2–4 repeated × 4 (once per subtitle condition)</li>
-        <li>Step 5: Post-task questionnaire + semi-structured interview</li>
-      </ul>
-    </div>
-    <div class="section">
-      <div class="sec-title"><span class="sec-num">3.5</span>Data Collection</div>
-      <div class="sub-section">
-        <div class="sub-title">3.5.1 Interpreting Performance</div>
-        <ul class="points">
-          <li>Analytic rubric adapted from <strong>Cheung & Li (2022)</strong>, expanded to 4 criteria:</li>
-          <li><strong>Accuracy</strong> (0–5): meaning fidelity to source</li>
-          <li><strong>Terminology</strong> (0–5): appropriate lexical choices</li>
-          <li><strong>Fluency</strong> (0–5): smoothness, pauses, hesitations</li>
-          <li><strong>Delivery</strong> (0–5): clarity and comprehensibility</li>
-          <li>Max score per segment: <strong>20 points</strong>; scored by single rater (acknowledged as limitation)</li>
-        </ul>
-      </div>
-      <div class="sub-section">
-        <div class="sub-title">3.5.2 Cognitive Load</div>
-        <ul class="points">
-          <li><strong>Paas Scale (1992)</strong>: single-item, 9-point (1=very low effort, 9=very high)</li>
-          <li>Supplementary items: subtitle reliance / subtitle interference / segment difficulty</li>
-          <li>Administered immediately after each segment</li>
-        </ul>
-      </div>
-      <div class="sub-section">
-        <div class="sub-title">3.5.3 ASR Transcription</div>
-        <ul class="points">
-          <li>Used as <strong>ecological validity tool</strong>, not a research variable</li>
-          <li>All participants received same ASR conditions</li>
-        </ul>
-      </div>
-      <div class="sub-section">
-        <div class="sub-title">3.5.4 Qualitative Data</div>
-        <ul class="points">
-          <li>Post-task questionnaire: perceptions of subtitle conditions</li>
-          <li>Semi-structured interviews: strategies, experiences, attitudes</li>
-          <li>Supplements and contextualises quantitative findings</li>
-        </ul>
-      </div>
-    </div>
-    <div class="section">
-      <div class="sec-title"><span class="sec-num">3.6</span>Data Analysis <span class="tag tag-meth">Stats</span></div>
-      <ul class="points">
-        <li><strong>Quantitative</strong>: SPSS — repeated-measures <strong>ANOVA</strong> (within-subject: subtitle condition; between-subject: training level)</li>
-        <li>Descriptive stats: mean + SD for performance and cognitive load per condition</li>
-        <li>Group comparisons: beginner vs. intermediate across all 4 conditions</li>
-        <li><strong>Qualitative</strong>: thematic analysis of interview responses</li>
-        <li>Mixed triangulation: qualitative findings used to explain quantitative patterns</li>
-      </ul>
-    </div>
-  </div>
-</div>
-
-</div>
+<div class="main" id="main"></div>
 
 <script>
-function toggle(header) {
-  const body = header.nextElementSibling;
-  const arrow = header.querySelector('.ch-arrow');
-  if (body.classList.contains('open')) {
-    body.classList.remove('open');
-    arrow.style.transform = 'rotate(-90deg)';
+const slides = [
+  { num:1, section:"Opening", title:"Title Slide", time:"~30 sec",
+    open:"Good morning/afternoon. My name is Yin-Yu Wu, and I'm presenting my master's thesis proposal.",
+    points:[
+      "State the full title clearly — <strong>don't rush it</strong>",
+      "Mention the three key elements: EN→ZH consecutive interpreting, four subtitle conditions, ASR assistance",
+      "One motivating sentence: <span class='em'>\"This is a timely question because ASR is now built into every major conferencing platform.\"</span>",
+      "End with: <span class='em'>\"I'm happy to take questions at the end.\"</span>"
+    ], warn:null, next:"Table of contents — just read it briefly" },
+
+  { num:2, section:"Opening", title:"Table of Contents", time:"~30 sec",
+    open:"Here's a quick overview of what I'll cover today.",
+    points:[
+      "Read the sections briefly — do not elaborate yet",
+      "Signal where the most time goes: <span class='em'>\"The methodology section is the most detailed.\"</span>",
+      "Set expectations: <span class='em'>\"The presentation is about 20 minutes.\"</span>"
+    ], warn:null, next:"Research background" },
+
+  { num:3, section:"Background", title:"1. Research Background", time:"~1.5 min",
+    open:"The starting point is a concrete shift in professional practice since COVID.",
+    points:[
+      "<strong>Technology has changed the interpreter's working environment</strong> — Zoom, Meet, Webex now embed live ASR captions by default",
+      "Interpreters now receive audio + real-time text simultaneously, whether they choose to or not",
+      "The double-edged sword: subtitles can help with numbers, names, accents <span class='ref'>(Desmet et al., 2018)</span> — but they add a competing information channel <span class='ref'>(Seeber, 2017)</span>",
+      "Land the gap: <span class='em'>\"No one has compared what happens when the subtitle language changes — English, Chinese, or bilingual.\"</span>"
+    ], warn:"Don't over-explain here — keep it big-picture. The depth comes in the literature review.", next:"Four research gaps" },
+
+  { num:4, section:"Background", title:"2. Research Problem & Gap", time:"~1.5 min",
+    open:"Four specific gaps in the existing literature — each one is a direct justification for this study.",
+    points:[
+      "<strong>Gap 1 — Mode:</strong> Almost all ASR research targets SI. CI has a note-taking phase and different cognitive demands — it remains understudied in technology contexts",
+      "<strong>Gap 2 — Format:</strong> Every study treats textual support as binary: present vs. absent. No study has varied the <em>language</em> of the subtitle",
+      "<strong>Gap 3 — CL Data:</strong> Qualitative perception data exist, but controlled quantitative CL measurement across subtitle conditions is scarce",
+      "<strong>Gap 4 — Training:</strong> Unknown whether novice and experienced student interpreters respond differently to subtitle support"
+    ], warn:"Committees love this slide. Be ready to explain each gap in one sentence if asked.", next:"Three research objectives" },
+
+  { num:5, section:"Background", title:"3. Research Objectives", time:"~45 sec",
+    open:"Three objectives, each mapping directly onto the gaps.",
+    points:[
+      "Objective 1 → Gap 2: compare four subtitle formats, not just present/absent",
+      "Objective 2 → Gap 3: measure cognitive load quantitatively across all four conditions",
+      "Objective 3 → Gaps 1 & 4: CI context, beginner vs. intermediate comparison"
+    ], warn:null, next:"Three research questions" },
+
+  { num:6, section:"Background", title:"4. Research Questions", time:"~1 min",
+    open:"The three research questions operationalise the objectives.",
+    points:[
+      "<strong>RQ1</strong>: interpreting performance — four dimensions (Accuracy, Terminology, Fluency, Delivery)",
+      "<strong>RQ2</strong>: cognitive load — not just whether performance changes, but <em>at what mental cost</em>",
+      "<strong>RQ3</strong>: training level — does experience moderate the effect of subtitle support",
+      "Emphasise: <span class='em'>\"All three are answered by the same dataset — the design is efficient.\"</span>"
+    ], warn:null, next:"Literature review — 7 slides" },
+
+  { num:7, section:"Lit Review", title:"Lit Review (1/7) — What Makes CI Demanding?", time:"~1 min",
+    open:"Before we talk about subtitles, we need to establish why interpreting is already at its cognitive limit.",
+    points:[
+      "Unlike written translation: no time to pause, re-read, or revise — everything happens in real time",
+      "Four defining characteristics: real-time, ephemeral, meaning-oriented, capacity-constrained <span class='ref'>(Pöchhacker, 2004)</span>",
+      "<strong>Key point to land:</strong> <span class='em'>\"Interpreters are already managing several operations simultaneously. Adding a subtitle channel is not neutral — it competes for resources that are already stretched.\"</span>"
+    ], warn:null, next:"Gile's Effort Model" },
+
+  { num:8, section:"Lit Review", title:"Lit Review (2/7) — Gile's Effort Model", time:"~1.5 min",
+    open:"Gile's Effort Model is the core theoretical framework for this study.",
+    points:[
+      "Four concurrent efforts: <strong>L</strong> (Listening & Analysis), <strong>M</strong> (Memory), <strong>P</strong> (Production), <strong>C</strong> (Coordination)",
+      "All draw from the same <strong>limited cognitive pool</strong> — the model assumes capacity is finite",
+      "<strong>Tightrope Hypothesis:</strong> interpreters operate near their ceiling — even small increases in difficulty cause omissions or errors <span class='ref'>(Gile, 2009)</span>",
+      "Connect to your study: <span class='em'>\"Adding a subtitle channel introduces a fifth competing demand on an already full system.\"</span>"
+    ], warn:"If asked about CI vs SI in the Effort Model: in CI, note-taking is an additional effort that replaces the continuous production pressure of SI. The model applies to CI with this modification.", next:"Cognitive Load Theory" },
+
+  { num:9, section:"Lit Review", title:"Lit Review (3/7) — Cognitive Load Theory", time:"~1.5 min",
+    open:"CLT gives us the vocabulary to categorise the types of cognitive demand involved.",
+    points:[
+      "<strong>Intrinsic load:</strong> inherent task complexity — already very high in CI before any subtitle is added",
+      "<strong>Extraneous load:</strong> caused by how information is presented — <em>this is what subtitle language varies in this study</em>",
+      "<strong>Germane load:</strong> schema-building — relevant because participants are still developing as interpreters",
+      "Measurement: <span class='em'>\"The Paas Scale is a validated single-item instrument for perceived mental effort, widely used in interpreting research.\"</span>"
+    ], warn:"Likely Q: 'Why only the Paas Scale and not dual-task or physiological measures?' Answer: feasibility for this scale, consistency with prior CI cognitive load studies, and the Paas Scale has been validated in interpreting contexts specifically.", next:"Multimodal processing" },
+
+  { num:10, section:"Lit Review", title:"Lit Review (4/7) — Multimodal Processing", time:"~1 min",
+    open:"Speech perception has never been purely auditory.",
+    points:[
+      "<strong>Sumby & Pollack (1954):</strong> visual lip movements directly improve comprehension in noise — not just a backup channel",
+      "<strong>McGurk Effect (McGurk & MacDonald, 1976):</strong> audio and visual signals are integrated, not separate — conflict produces a third, blended percept",
+      "<strong>Seeber (2017):</strong> interpreting is a multimodal cognitive task — attention allocation across channels itself consumes cognitive resources",
+      "Connect to study: <span class='em'>\"When ASR text is added, interpreters must decide how to distribute attention between listening and reading — the language of the subtitle affects which pathway is activated.\"</span>"
+    ], warn:null, next:"Audiovisual discrepancies & ASR benefits" },
+
+  { num:11, section:"Lit Review", title:"Lit Review (5/7) — Discrepancies & ASR", time:"~1.5 min",
+    open:"This slide presents both sides of the ASR coin — risks and benefits.",
+    points:[
+      "<strong>Risk — Discrepancies:</strong> when subtitle ≠ speech, interpreter must resolve the conflict in real time: which source do I trust?",
+      "<span class='ref'>Yu (2024) & Wang et al. (2024):</span> audio-visual discrepancies in ASR-assisted SI negatively affect performance and increase cognitive burden",
+      "<span class='ref'>Seeber (2011) eye-tracking:</span> attention split between speaker and caption is not always efficient — the division itself costs resources",
+      "<strong>Benefit — ASR support:</strong> <span class='ref'>Wang et al. (2025):</span> trainees find ASR helpful for confirming numbers, proper names, difficult segments",
+      "Key insight to land: <span class='em'>\"Reliability matters as much as presence — an inaccurate subtitle can cause more harm than no subtitle at all.\"</span>"
+    ], warn:null, next:"Technology in interpreting" },
+
+  { num:12, section:"Lit Review", title:"Lit Review (6/7) — Technology in Interpreting", time:"~1 min",
+    open:"ASR is no longer experimental — it is built into mainstream platforms interpreters use every day.",
+    points:[
+      "CAI tools now standard in professional settings: Zoom, Meet, Webex, RSI platforms all offer live captions <span class='ref'>(Fantinuoli, 2018)</span>",
+      "<span class='ref'>Li (2013):</span> early machine-aided interpreting experiments showed ASR potential — especially for numbers and proper names",
+      "<span class='ref'>Wang et al. (2025):</span> trainees appreciate ASR but perception is highly sensitive to transcription quality",
+      "The remaining gap: <span class='em'>\"Every study has treated subtitles as present or absent. The <em>language</em> of the subtitle has never been the variable.\"</span>"
+    ], warn:null, next:"Where this study fits" },
+
+  { num:13, section:"Lit Review", title:"Lit Review (7/7) — Where This Study Fits", time:"~1 min",
+    open:"This slide positions the study within the field as clearly as possible.",
+    points:[
+      "Walk through three rows: <strong>What exists → What's missing → This study</strong>",
+      "For each item in the middle row, point directly to its answer in the bottom row",
+      "Land with: <span class='em'>\"This is not adding to a crowded field — it is filling a specific, well-defined gap with a direct experimental design.\"</span>"
+    ], warn:"Be ready for: 'Why CI and not SI?' — CI has a note-taking phase, phased production, and different cognitive structure. SI is already well-studied in this context; CI is the understudied mode.", next:"Theoretical framework" },
+
+  { num:14, section:"Framework", title:"6. Theoretical Framework", time:"~1 min",
+    open:"The framework integrates four pillars, each doing a specific job.",
+    points:[
+      "<strong>Gile:</strong> explains why capacity is limited and predicts when performance breaks down",
+      "<strong>Seeber:</strong> explains how competing audio/visual streams are managed — grounds the attention allocation predictions",
+      "<strong>CLT:</strong> categorises load types and justifies the Paas Scale as the measurement instrument",
+      "<strong>Wang et al. (2025):</strong> grounds individual differences, perception data, and technology acceptance",
+      "Transition: <span class='em'>\"Together, these frameworks predict that subtitle language will affect both performance and cognitive load, and that training level will moderate these effects.\"</span>"
+    ], warn:null, next:"Methodology — 6 slides" },
+
+  { num:15, section:"Methodology", title:"Method (1/6) — Participants & Design", time:"~2 min",
+    open:"I want to address the sample size directly — this is usually the first question.",
+    points:[
+      "<strong>N = 14, seven per group.</strong> Address it proactively — within-subjects design means each person contributes data across all 4 conditions, maximising statistical power with small N",
+      "Comparable CI experimental studies in the literature typically use samples of 10–20 at this stage",
+      "<strong>Beginner group (R1–R7):</strong> first semester, no prior formal interpreting coursework",
+      "<strong>Intermediate group (A1–A7):</strong> ≥2 semesters, practised note-taking, message chunking, reformulation",
+      "Classification is based on <em>curriculum stage</em>, not self-report — reliable and replicable",
+      "Within-subjects = each person is their own control; between-subjects factor = training level"
+    ], warn:"Most likely committee question: 'Why not counterbalance the order?' — Prepare this answer: fixed order ensures identical material exposure for all participants in a small-N study; carry-over effects are acknowledged as a named limitation.", next:"Materials" },
+
+  { num:16, section:"Methodology", title:"Method (2/6) — Materials", time:"~1.5 min",
+    open:"The speech material was selected carefully on three criteria.",
+    points:[
+      "<strong>Topic:</strong> AI in education — accessible to graduate students, sufficient technical vocabulary to test precision",
+      "<strong>Speaker:</strong> Singaporean professor — mild but realistic accent challenge without being unfamiliar",
+      "<strong>Difficulty:</strong> B1–B2 CEFR, verified by Text Inspector automated readability tool — appropriate for all participants",
+      "<strong>ASR system:</strong> Verbal.ai — generates live real-time subtitles synchronised with playback, replicating actual working conditions",
+      "<strong>Fixed order rationale:</strong> no subtitle → EN → bilingual → ZH follows the directionality of the task from source to target language"
+    ], warn:"Be ready for: 'Why fixed order and not counterbalanced?' — Same answer as for participants: small-N consistency; carry-over effects are acknowledged as a limitation and will be discussed in the findings.", next:"Procedure overview" },
+
+  { num:17, section:"Methodology", title:"Method (3/6) — Procedure Overview", time:"~1 min",
+    open:"Five steps, straightforward structure. The core is the loop repeated four times.",
+    points:[
+      "Steps 2–3 are the core: watch segment → interpret → rate cognitive load — repeated for all 4 conditions",
+      "<strong>Critical timing detail:</strong> Paas Scale collected <em>immediately</em> after each segment, not at the end — this is what makes the CL data comparable across conditions",
+      "Steps 4 & 5 provide the qualitative layer: questionnaire for all participants, semi-structured interview for a subset",
+      "The interview is designed to <em>explain</em> the quantitative patterns — not a post-hoc add-on"
+    ], warn:null, next:"Session flow in detail" },
+
+  { num:18, section:"Methodology", title:"Method (3/6) — Session Flow in Detail", time:"~1 min",
+    open:"Total session: 45–65 minutes per participant.",
+    points:[
+      "Core loop (steps 2–3 × 4 conditions): ~8–10 min per condition, ~30–40 min total",
+      "All sessions conducted individually — prevents social influence between participants",
+      "Identical equipment, room, and setup for all — critical for comparability of results",
+      "Interview subset adds ~10–15 minutes for those who agree to participate"
+    ], warn:null, next:"Variables" },
+
+  { num:19, section:"Methodology", title:"Method (4/6) — Variables", time:"~1.5 min",
+    open:"The variable structure is clean and transparent.",
+    points:[
+      "<strong>Primary IV:</strong> subtitle modality — 4 within-subjects levels",
+      "<strong>Moderating variable:</strong> training level — between-subjects",
+      "<strong>DVs:</strong> interpreting performance (analytic rubric) + cognitive load (Paas Scale 1–9)",
+      "<strong>Controlled:</strong> same speech, speaker, ASR system, room, equipment, presentation order",
+      "<strong>Potential confounds — name these proactively:</strong> individual variation in English proficiency within groups; prior familiarity with AI/education discourse; order/carry-over effects from fixed design"
+    ], warn:"Naming potential confounds proactively demonstrates methodological maturity. Committees respond well to researchers who acknowledge limitations before being asked.", next:"Scoring rubric" },
+
+  { num:20, section:"Methodology", title:"Method (5/6) — Scoring Rubric: Four Criteria", time:"~1.5 min",
+    open:"The rubric is adapted from Cheung & Li (2022), expanded from two to four criteria for this study.",
+    points:[
+      "<strong>Accuracy (0–5):</strong> meaning fidelity — did the right content transfer?",
+      "<strong>Terminology (0–5):</strong> precision — were the correct domain-specific terms used? Register appropriate?",
+      "<strong>Fluency (0–5):</strong> smoothness — were there disruptive pauses or self-corrections?",
+      "<strong>Delivery (0–5):</strong> communicative effectiveness — could an audience actually understand the output?",
+      "Each scored independently; total max = 20 per segment",
+      "Original Cheung & Li rubric had only Accuracy & Fluency — Terminology & Delivery added to reflect CI-specific demands"
+    ], warn:"Be ready for: 'Why these four and not others?' — The two-criterion rubric was expanded based on established CI quality assessment frameworks (Chen et al., 2022; Pöchhacker, 2001) that include terminology and delivery as separate dimensions.", next:"Score scale & rating procedure" },
+
+  { num:21, section:"Methodology", title:"Method (5/6) — Score Scale & Rating", time:"~1 min",
+    open:"The score scale makes the rubric operational and transparent.",
+    points:[
+      "5 = essentially complete and natural; 3 = core meaning comes through despite errors; 0 = no meaningful output",
+      "<strong>Single rater — address this directly:</strong> <span class='em'>\"This is a practical constraint at this scale. Inter-rater reliability testing would be a priority in any full dissertation or follow-up study.\"</span>",
+      "Scoring from audio recordings — all four segments per participant, same rater throughout for consistency"
+    ], warn:"Single-rater is a real limitation — don't avoid it, but frame it as an acknowledged and contextualised constraint. Saying it yourself before the committee does shows you understand the methodological landscape.", next:"Data analysis" },
+
+  { num:22, section:"Methodology", title:"Method (6/6) — Data Analysis", time:"~1.5 min",
+    open:"Two parallel tracks that converge at triangulation.",
+    points:[
+      "<strong>Quantitative:</strong> descriptive stats (means & SDs per condition) → repeated-measures ANOVA → group comparison for RQ3",
+      "Within-subjects factor: subtitle modality; between-subjects factor: training level — SPSS",
+      "<strong>Qualitative:</strong> post-task questionnaire (all participants) → semi-structured interviews (subset) → thematic analysis",
+      "<strong>Triangulation:</strong> qualitative findings explain quantitative patterns — this is genuinely mixed-methods, not quant with a qual add-on"
+    ], warn:"Be ready for: 'What if your ANOVA assumptions are violated with N=14?' — If normality cannot be assumed, the Friedman test is the appropriate non-parametric alternative for within-subjects repeated measures. Mention this proactively — it shows statistical awareness.", next:"Expected results" },
+
+  { num:23, section:"Contributions", title:"8. Expected Results", time:"~1 min",
+    open:"These are theory-grounded predictions, not conclusions.",
+    points:[
+      "Subtitle modality will produce measurable differences — <strong>Accuracy</strong> expected to be the most sensitive dimension",
+      "<strong>Bilingual subtitles:</strong> predicted to impose the highest cognitive load — two competing language channels simultaneously is the most expensive configuration per CLT",
+      "<strong>Training level:</strong> intermediate interpreters likely to use subtitle support more strategically; beginners may over-rely or struggle to integrate text with audio",
+      "Remind the committee: <span class='em'>\"If findings diverge from these predictions, that divergence is itself theoretically interesting and worth explaining.\"</span>"
+    ], warn:null, next:"Expected contributions" },
+
+  { num:24, section:"Contributions", title:"8. Expected Contributions", time:"~1 min",
+    open:"Four contributions at different levels — empirical, methodological, and pedagogical.",
+    points:[
+      "① <strong>Empirical originality:</strong> first systematic comparison of four subtitle language formats in ASR-assisted CI",
+      "② <strong>Cognitive load evidence:</strong> quantitative Paas data across four conditions — moves beyond existing qualitative perception studies",
+      "③ <strong>Pedagogical value:</strong> beginner vs. intermediate comparison directly informs what subtitle formats are appropriate at which training stage",
+      "④ <strong>Research foundation:</strong> establishes a replicable baseline and methodology for future subtitle design research in interpreter training"
+    ], warn:null, next:"Conclusion" },
+
+  { num:25, section:"Closing", title:"9. Conclusion", time:"~45 sec",
+    open:"To wrap up — four key takeaways.",
+    points:[
+      "Specific, well-defined gap: no study has systematically compared subtitle language format in ASR-assisted CI",
+      "Rigorous design: within-subjects, four conditions, Paas scale after each segment, mixed methods",
+      "Pedagogical relevance: beginner vs. intermediate generates actionable findings for technology-assisted CI teaching",
+      "<strong>Close with:</strong> <span class='em'>\"I'm ready to take questions and discuss any aspect of the design in more detail.\"</span>"
+    ], warn:null, next:"Q&A" },
+
+  { num:26, section:"Closing", title:"Thank You / Q&A", time:"Q&A",
+    open:"Thank you. I am happy to take questions.",
+    points:[
+      "<strong>Most likely Q&A topics — prepare these specifically:</strong>",
+      "Sample size (N=14): within-subjects design maximises power; consistent with CI experimental literature",
+      "Fixed vs. counterbalanced order: small-N consistency; carry-over acknowledged as limitation",
+      "Single rater: practical constraint; inter-rater reliability is a priority for full dissertation",
+      "Why CI and not SI: different cognitive structure (note-taking phase), CI is understudied in this context",
+      "Why Paas Scale only: feasibility; validated in CI CL research; supplemented by self-report questionnaire",
+      "If ANOVA assumptions violated: Friedman test as non-parametric alternative"
+    ], warn:"Take a breath before answering. It's completely fine to say: 'That's a good question — let me think for a moment.' Don't rush.", next:null }
+];
+
+let cur = 0;
+let timerRunning = false;
+let timerInterval = null;
+let secondsLeft = 20 * 60;
+
+function render() {
+  const s = slides[cur];
+  document.getElementById('counter').textContent = `${s.num} / 26`;
+  document.getElementById('pfill').style.width = `${(s.num/26)*100}%`;
+  document.querySelectorAll('.thumb').forEach((el,i) => el.classList.toggle('active', i===cur));
+
+  let h = `<div class="section-label">${s.section}</div><div class="card">`;
+  h += `<div class="card-header"><span class="badge">Slide ${s.num}</span><span class="card-title">${s.title}</span><span class="time-label">${s.time}</span></div>`;
+  h += `<div class="card-body">`;
+  if (s.open) h += `<div class="opening">"${s.open}"</div>`;
+  h += `<ul class="points">`;
+  s.points.forEach(p => { h += `<li>${p}</li>`; });
+  h += `</ul>`;
+  if (s.warn) h += `<div class="warn-box">${s.warn}</div>`;
+  if (s.next) h += `<div class="transition-box">${s.next}</div>`;
+  h += `</div></div>`;
+
+  document.getElementById('main').innerHTML = h;
+  window.scrollTo(0,0);
+}
+
+function go(dir) {
+  cur = Math.max(0, Math.min(slides.length-1, cur+dir));
+  render();
+}
+
+function buildThumbs() {
+  const c = document.getElementById('thumbs');
+  slides.forEach((s,i) => {
+    const b = document.createElement('button');
+    b.className='thumb'+(i===0?' active':'');
+    b.textContent=s.num;
+    b.title=s.title;
+    b.onclick=()=>{cur=i;render();};
+    c.appendChild(b);
+  });
+}
+
+function fmt(s) {
+  const m=Math.floor(Math.abs(s)/60), sec=Math.abs(s)%60;
+  return (s<0?'-':'') + String(m).padStart(2,'0')+':'+String(sec).padStart(2,'0');
+}
+
+function updateTimer() {
+  const el=document.getElementById('timer');
+  el.textContent=fmt(secondsLeft);
+  el.className = secondsLeft<0?'over':secondsLeft<120?'warn':'';
+}
+
+function toggleTimer() {
+  const btn=document.getElementById('tbtn');
+  if (timerRunning) {
+    clearInterval(timerInterval); timerRunning=false; btn.textContent='▶ Start';
   } else {
-    body.classList.add('open');
-    arrow.style.transform = 'rotate(0deg)';
+    timerRunning=true; btn.textContent='⏸ Pause';
+    timerInterval=setInterval(()=>{secondsLeft--;updateTimer();},1000);
   }
 }
+
+function resetTimer() {
+  clearInterval(timerInterval); timerRunning=false;
+  secondsLeft=20*60; document.getElementById('tbtn').textContent='▶ Start'; updateTimer();
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key==='ArrowRight'||e.key==='ArrowDown') go(1);
+  if (e.key==='ArrowLeft'||e.key==='ArrowUp') go(-1);
+});
+
+buildThumbs(); render(); updateTimer();
 </script>
+</body>
+</html>
